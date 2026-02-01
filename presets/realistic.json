@@ -44,11 +44,14 @@
     "default_aspect_ratio": "896*1152",
     "default_overwrite_step": -1,
     "checkpoint_downloads": {
-        "realisticStockPhoto_v20.safetensors": "https://huggingface.co/lllyasviel/fav_models/resolve/main/fav/realisticStockPhoto_v20.safetensors"
+        "realisticStockPhoto_v20.safetensors": "https://huggingface.co/lllyasviel/fav_models/resolve/main/fav/realisticStockPhoto_v20.safetensors"        
     },
     "embeddings_downloads": {},
     "lora_downloads": {
-        "SDXL_FILM_PHOTOGRAPHY_STYLE_V1.safetensors": "https://huggingface.co/mashb1t/fav_models/resolve/main/fav/SDXL_FILM_PHOTOGRAPHY_STYLE_V1.safetensors"
+        "SDXL_FILM_PHOTOGRAPHY_STYLE_V1.safetensors": "https://huggingface.co/mashb1t/fav_models/resolve/main/fav/SDXL_FILM_PHOTOGRAPHY_STYLE_V1.safetensors",
+        "SaggyTits.safetensors": "https://civitai.com/api/download/models/590042?type=Model&format=SafeTensor",
+        "Pubichair.safetensors": "https://civitai.com/api/download/models/539041?type=Model&format=SafeTensor",
+        "VOY.safetensors": "https://civitai.com/api/download/models/1816795?type=Model&format=SafeTensor"
     },
     "previous_default_models": ["realisticStockPhoto_v10.safetensors"]
 }
