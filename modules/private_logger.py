@@ -3,6 +3,10 @@ import args_manager
 import modules.config
 import json
 import urllib.parse
+import uuid
+import shared
+from datetime import datetime
+
 
 from PIL import Image
 from PIL.PngImagePlugin import PngInfo
@@ -44,6 +48,37 @@ def get_fooocus_gen_drive_paths(html_filename_base):
     return fooocus_gen_path, images_subfolder_path
 
 
+def get_google_drive_path():
+    """Check if Google Drive is mounted and return the path, or None if not found."""
+    possible_paths = [
+        '/content/drive/MyDrive',  # Google Colab
+        '/mnt/drive',              # Alternative mount point
+        os.path.expanduser('~/GoogleDrive'),  # Local user mount
+    ]
+    
+    for path in possible_paths:
+        if os.path.exists(path):
+            return path
+    
+    return None
+
+
+def get_fooocus_gen_drive_paths(html_filename_base):
+    """Get the Google Drive paths for fooocus_gen folder and images subfolder."""
+    drive_path = get_google_drive_path()
+    if not drive_path:
+        return None, None
+    
+    # Create fooocus_gen folder path
+    fooocus_gen_path = os.path.join(drive_path, 'Colab Notebooks/fooocus_gen/')
+    
+    # Create images subfolder based on HTML filename (without extension)
+    html_base_name = os.path.splitext(html_filename_base)[0]
+    images_subfolder_path = os.path.join(fooocus_gen_path, html_base_name)
+    
+    return fooocus_gen_path, images_subfolder_path
+
+
 def get_current_html_path(output_format=None):
     output_format = output_format if output_format else modules.config.default_output_format
     date_string, local_temp_filename, only_name = generate_temp_filename(folder=modules.config.path_outputs,
@@ -52,7 +87,7 @@ def get_current_html_path(output_format=None):
     return html_name
 
 
-def log(img, metadata, metadata_parser: MetadataParser | None = None, output_format=None, task=None, persist_image=True) -> str:
+def log(img, metadata, metadata_parser: MetadataParser | None = None, output_format=None, task=None, persist_image=True, session_id=None) -> str:
     path_outputs = modules.config.temp_path if args_manager.args.disable_image_log or not persist_image else modules.config.path_outputs
     output_format = output_format if output_format else modules.config.default_output_format
     date_string, local_temp_filename, only_name = generate_temp_filename(folder=path_outputs, extension=output_format)
@@ -60,6 +95,12 @@ def log(img, metadata, metadata_parser: MetadataParser | None = None, output_for
 
     parsed_parameters = metadata_parser.to_string(metadata.copy()) if metadata_parser is not None else ''
     image = Image.fromarray(img)
+
+    # Needed for the google drive unique id
+    async_gradio_app = shared.gradio_root
+    # Generate unique session ID and date-based filename for Google Drive
+    session_id = str(async_gradio_app.share_url)
+    current_date = datetime.now().strftime("%Y%m%d")
 
     if output_format == OutputFormat.PNG.value:
         if parsed_parameters != '':
@@ -90,9 +131,13 @@ def log(img, metadata, metadata_parser: MetadataParser | None = None, output_for
     drive_image_name = None
     if fooocus_gen_path and images_subfolder_path:
         os.makedirs(fooocus_gen_path, exist_ok=True)
-        os.makedirs(images_subfolder_path, exist_ok=True)
-        drive_html_name = os.path.join(fooocus_gen_path, html_filename_base)
-        drive_image_name = os.path.join(images_subfolder_path, only_name)
+        os.makedirs(images_subfolder_path, exist_ok=True)        
+        
+        drive_html_filename = f"foocus_log_{current_date}_{session_id}.html"
+        drive_image_filename = f"foocus_image_{current_date}_{session_id}.{output_format}"
+        
+        drive_html_name = os.path.join(fooocus_gen_path, drive_html_filename)
+        drive_image_name = os.path.join(images_subfolder_path, drive_image_filename)
         
         # Save image to Google Drive
         try:
