@@ -6,8 +6,7 @@ import urllib.parse
 import uuid
 import shared
 from datetime import datetime
-
-
+from urllib.parse import urlparse
 from PIL import Image
 from PIL.PngImagePlugin import PngInfo
 from modules.flags import OutputFormat
@@ -96,12 +95,13 @@ def log(img, metadata, metadata_parser: MetadataParser | None = None, output_for
     parsed_parameters = metadata_parser.to_string(metadata.copy()) if metadata_parser is not None else ''
     image = Image.fromarray(img)
 
-    # Needed for the google drive unique id
+    # Needed for the google drive unique id. 
+    # Keeps only the first part from https://de56b7afce1379d000.gradio.live/
     async_gradio_app = shared.gradio_root
-    # Generate unique session ID and date-based filename for Google Drive
-    session_id = str(async_gradio_app.share_url)
-    current_date = datetime.now().strftime("%Y%m%d")
-
+    parsed_url = urlparse(str(async_gradio_app.share_url))
+    session_id = parsed.hostname.split('.')[0]
+    unique = drive_html_filename = f"foocus_{current_date}_{session_id}"
+    
     if output_format == OutputFormat.PNG.value:
         if parsed_parameters != '':
             pnginfo = PngInfo()
@@ -122,10 +122,11 @@ def log(img, metadata, metadata_parser: MetadataParser | None = None, output_for
 
     html_name = os.path.join(os.path.dirname(local_temp_filename), 'log.html')
     
-    # Check if Google Drive is available and set up paths
+    # Decide folder names    
     html_filename_base = os.path.basename(html_name)
-    fooocus_gen_path, images_subfolder_path = get_fooocus_gen_drive_paths(html_filename_base)
-    
+    fooocus_gen_path = get_fooocus_gen_drive_paths(html_filename_base)    
+    images_subfolder_path = os.path.join(fooocus_gen_path, unique)
+
     # Prepare Google Drive paths if available
     drive_html_name = None
     drive_image_name = None
@@ -133,11 +134,10 @@ def log(img, metadata, metadata_parser: MetadataParser | None = None, output_for
         os.makedirs(fooocus_gen_path, exist_ok=True)
         os.makedirs(images_subfolder_path, exist_ok=True)        
         
-        drive_html_filename = f"foocus_log_{current_date}_{session_id}.html"
-        drive_image_filename = f"foocus_image_{current_date}_{session_id}.{output_format}"
+        drive_html_filename = f"log_{unique}.html"
         
         drive_html_name = os.path.join(fooocus_gen_path, drive_html_filename)
-        drive_image_name = os.path.join(images_subfolder_path, drive_image_filename)
+        drive_image_name = os.path.join(images_subfolder_path, "/", local_temp_filename)
         
         # Save image to Google Drive
         try:
