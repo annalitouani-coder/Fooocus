@@ -35,7 +35,7 @@ def get_fooocus_gen_drive_paths(html_filename_base):
         return None, None
     
     # Create fooocus_gen folder path
-    fooocus_gen_path = os.path.join(drive_path, 'fooocus_gen/Colab Notebooks')
+    fooocus_gen_path = os.path.join(drive_path, 'Colab Notebooks/fooocus_gen/')
     
     # Create images subfolder based on HTML filename (without extension)
     html_base_name = os.path.splitext(html_filename_base)[0]
