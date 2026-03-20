@@ -97,6 +97,7 @@ def log(img, metadata, metadata_parser: MetadataParser | None = None, output_for
 
     # Needed for the google drive unique id. 
     # Keeps only the first part from https://de56b7afce1379d000.gradio.live/
+    current_date = datetime.now().strftime("%Y%m%d")
     async_gradio_app = shared.gradio_root
     parsed_url = urlparse(str(async_gradio_app.share_url))
     session_id = parsed_url.hostname.split('.')[0]
