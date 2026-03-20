@@ -112,9 +112,9 @@ class MetadataScheme(Enum):
     FOOOCUS = 'fooocus'
 
 
-metadata_scheme = [
-    (f'{MetadataScheme.FOOOCUS.value} (json)', MetadataScheme.FOOOCUS.value),
+metadata_scheme = [    
     (f'{MetadataScheme.A1111.value} (plain text)', MetadataScheme.A1111.value),
+    (f'{MetadataScheme.FOOOCUS.value} (json)', MetadataScheme.FOOOCUS.value),
 ]
 
 
