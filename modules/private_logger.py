@@ -125,8 +125,8 @@ def log(img, metadata, metadata_parser: MetadataParser | None = None, output_for
     
     # Decide folder names    
     html_filename_base = os.path.basename(html_name)
-    fooocus_gen_path = get_fooocus_gen_drive_paths(html_filename_base)    
-    images_subfolder_path = os.path.join(fooocus_gen_path, unique)
+    fooocus_gen_path, base_images_subfolder_path = get_fooocus_gen_drive_paths(html_filename_base)
+    images_subfolder_path = os.path.join(base_images_subfolder_path, unique)
 
     # Prepare Google Drive paths if available
     drive_html_name = None
