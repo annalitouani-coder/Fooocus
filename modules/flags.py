@@ -107,9 +107,9 @@ sdxl_aspect_ratios = [
 ]
 
 
-class MetadataScheme(Enum):
-    FOOOCUS = 'fooocus'
+class MetadataScheme(Enum):    
     A1111 = 'a1111'
+    FOOOCUS = 'fooocus'
 
 
 metadata_scheme = [
