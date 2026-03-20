@@ -99,7 +99,7 @@ def log(img, metadata, metadata_parser: MetadataParser | None = None, output_for
     # Keeps only the first part from https://de56b7afce1379d000.gradio.live/
     async_gradio_app = shared.gradio_root
     parsed_url = urlparse(str(async_gradio_app.share_url))
-    session_id = parsed.hostname.split('.')[0]
+    session_id = parsed_url.hostname.split('.')[0]
     unique = drive_html_filename = f"foocus_{current_date}_{session_id}"
     
     if output_format == OutputFormat.PNG.value:
