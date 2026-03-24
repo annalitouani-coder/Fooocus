@@ -63,7 +63,9 @@
         "puffyBtrasts.safetensors" : "https://civitai.com/api/download/models/1726904?type=Model&format=SafeTensor&token=22575615e9d37e783756b4f5c301aa70",
         "perfectEyes.safetensors" : "https://civitai.com/api/download/models/128461?type=Model&format=SafeTensor",
         "ponyAmateur.safetensors" : "https://civitai.com/api/download/models/717403?type=Model&format=SafeTensor&token=22575615e9d37e783756b4f5c301aa70",
-        "ponyRealismSlider.safetensors" : "https://civitai.com/api/download/models/1253021?type=Model&format=SafeTensor"
+        "ponyRealismSlider.safetensors" : "https://civitai.com/api/download/models/1253021?type=Model&format=SafeTensor",
+        "zoomSlider.safetensors" : "https://civitai.com/api/download/models/123732?type=Model&format=SafeTensor",
+        "realDownBlouse.safetensors" : "https://civitai.com/api/download/models/245073?type=Model&format=SafeTensor"
     },
     "previous_default_models": ["realisticStockPhoto_v10.safetensors"]
 }
